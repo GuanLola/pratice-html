@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://bs3.360sres.com/!d72afc4d/jquery-1.8.0.min.js"></script>
+</head>
+<body>
+
+  <div class="box">
+    <span class="divider" style="left: 44%;"></span>
+    <input id="rangeInput" type="range" min="0" max="100" value="50">
+    <div class="blackBg" style="width: 44%;"></div>
+  </div>
+
+  <script type="text/javascript">
+    function setPosition(e) {
+      $(".divider").css({ left: e + "%" }),
+        $(".blackBg").css({ width: e + "%" });
+    }
+
+    $("#rangeInput").bind("input", function() {
+      const e = $(this).val(); // 0 - 100
+      setPosition(e);
+    });
+  </script>
+
+  <style type="text/css">
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      min-width: 1200px;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+    }
+    .box,
+    .divider {
+      left: 0;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      
+    }
+    .box {
+      width: 782px;
+      height: 452px;
+      margin: 83px auto 20px;
+      position: relative;
+      top: 0;
+      background-image: url("./image/box-bg.png");
+    }
+    .divider {
+      width: 58px;
+      height: 486px;
+      background-image: url("./image/divider.png");
+      position: absolute;
+      top: -17px;
+      margin-left: -29px;
+      z-index: 2;
+    }
+    .blackBg {
+      width: 0;
+      height: 100%;
+      background-image: url("./image/black-bg.png");
+      background-repeat: no-repeat;
+      background-size: 782px 452px;
+      background-position: left top;
+    }
+    #rangeInput {
+      cursor: ew-resize;
+      transform: translateY(-50%);
+      width: 100%;
+      position: absolute;
+      top: calc(50% + 10px);
+      z-index: 3;
+      opacity: 0;
+    }
+  </style>
+</body>
+</html>
