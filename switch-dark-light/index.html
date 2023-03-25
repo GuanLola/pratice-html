@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <script src="https://bs3.360sres.com/!d72afc4d/jquery-1.8.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js" integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw=" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -17,8 +17,8 @@
 
   <script type="text/javascript">
     function setPosition(e) {
-      $(".divider").css({ left: e + "%" }),
-        $(".blackBg").css({ width: e + "%" });
+      $(".divider").css({ left: e + "%" }), // 动 分隔条 相对盒子最左边的 距离 -> left
+        $(".blackBg").css({ width: e + "%" }); // 动 黑图 的 宽度 -> width
     }
 
     $("#rangeInput").bind("input", function() {
@@ -72,7 +72,7 @@
     }
     #rangeInput {
       cursor: ew-resize;
-      transform: translateY(-50%);
+      /* transform: translateY(-50%); */
       width: 100%;
       position: absolute;
       top: calc(50% + 10px);
