@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="rocket">
+        <img class="rocket-img" src="./r.png" />
+
+        <img class="musk-img" src="./musk.png" />
+      </div>
+
+      <img class="cloud-bg" src="http://cinemont.com/tutorials/howls/cloud-bg.png" />
+      <img class="cloud-bg cloud-bg_1" src="http://cinemont.com/tutorials/howls/cloud-bg.png" />
+      <img class="cloud-bg cloud-bg_2" src="http://cinemont.com/tutorials/howls/cloud-bg.png" />
+
+    </div>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(circle, #b2c5cf, #a9bfc8, #9cb8c2);
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      .main {
+        position: relative;
+      }
+      .rocket {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        -webkit-user-drag: none;
+      }
+      .rocket-img {
+        -webkit-user-drag: none;
+      }
+      .musk-img {
+        position: absolute;
+        width: 300px;
+        bottom: 138px;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      .cloud-bg {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 50%;
+        z-index: 0;
+        object-fit: contain;
+      }
+      .cloud-bg_1 {
+        left: -300px;
+        bottom: -10%;
+        height: 60%;
+      }
+      .cloud-bg_2 {
+        right: -300px;
+        bottom: -50px;
+        height: 60%;
+      }
+    </style>
+  </body>
+</html>

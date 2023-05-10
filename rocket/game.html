@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rocket Game</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+      }
+
+      #rocket {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 100px;
+        background-color: #fff;
+        border-radius: 10px;
+      }
+
+      #rocket .flame {
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 20px;
+        background-color: #ff0000;
+        border-radius: 50%;
+        animation: flame 0.5s infinite alternate;
+      }
+
+      @keyframes flame {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.5);
+        }
+      }
+
+      #score {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #fff;
+        font-size: 24px;
+      }
+
+      #obstacle {
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 50px;
+        background-color: #fff;
+        border-radius: 50%;
+      }
+
+      #explode {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("explosion.gif");
+        background-size: cover;
+        opacity: 0;
+        animation: explode 0.5s forwards;
+      }
+
+      @keyframes explode {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="rocket">
+      <div class="flame"></div>
+    </div>
+    <div id="score">Score: 0</div>
+    <div id="obstacle"></div>
+    <div id="explode"></div>
+
+    <script>
+      // 获取元素
+      const rocket = document.getElementById("rocket");
+      const flame = document.querySelector(".flame");
+      const obstacle = document.getElementById("obstacle");
+      const explode = document.getElementById("explode");
+      const scoreEl = document.getElementById("score");
+
+      // 初始化变量
+      let score = 0;
+      let rocketSpeed = 0;
+      let obstacleSpeed = 5;
+      let obstacleTop = -100;
+      let isGameOver = false;
+
+      // 监听键盘事件
+      document.addEventListener("keydown", (event) => {
+        if (event.code === "ArrowUp") {
+          rocketSpeed = -10;
+          flame.style.display = "block";
+        }
+      });
+
+      document.addEventListener("keyup", (event) => {
+        if (event.code === "ArrowUp") {
+          rocketSpeed = 5;
+          flame.style.display = "none";
+        }
+      });
+
+      // 更新火箭位置
+      function updateRocket() {
+        rocket.style.bottom = rocket.offsetTop + rocketSpeed + "px";
+      }
+
+      // 更新障碍物位置
+      function updateObstacle() {
+        if (obstacleTop > window.innerHeight) {
+          obstacleTop = -100;
+          obstacle.style.left = Math.random() * (window.innerWidth - 50) + "px";
+          score++;
+          scoreEl.textContent = "Score: " + score;
+        }
+
+        obstacleTop += obstacleSpeed;
+        obstacle.style.top = obstacleTop + "px";
+      }
+
+      // 检测碰撞
+      function checkCollision() {
+        const rocketRect = rocket.getBoundingClientRect();
+        const obstacleRect = obstacle.getBoundingClientRect();
+
+        if (
+          rocketRect.bottom >= obstacleRect.top &&
+          rocketRect.top <= obstacleRect.bottom &&
+          rocketRect.right >= obstacleRect.left &&
+          rocketRect.left <= obstacleRect.right
+        ) {
+          gameOver();
+        }
+      }
+
+      // 游戏结束
+      function gameOver() {
+        isGameOver = true;
+        explode.style.opacity = 1;
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+
+      // 游戏循环
+      function gameLoop() {
+        if (isGameOver) {
+          return;
+        }
+
+        updateRocket();
+        updateObstacle();
+        checkCollision();
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      // 启动游戏
+      // gameLoop();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TEST DEMO</title>
+  </head>
+  <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+  <body>
+    <div id="main" style="margin-left:10px;overflow-y:scroll;">
+      <div>
+        <div>
+          <div>
+            <video
+              style="width:250px;height:250px;border:5px solid black;"
+            ></video>
+            <img
+              id="picture"
+              style="width:250px;height:250px;border:5px solid black;"
+            />
+            <canvas
+              id="canvas"
+              style="display: none;width:250px;height:250px"
+            ></canvas>
+            <button onclick="cameraForm.save()">拍摄</button>
+            <button onclick="cameraForm.close()">关闭摄像头</button>
+            <button onclick="cameraForm.open()">开启摄像头</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let cameraForm = {
+      video: null,
+      base64Img: "",
+      open: function() {
+        // 视频大小
+        let constraints = { audio: false, video: { width: 250, height: 250 } };
+        // 开启视频
+        navigator.mediaDevices
+          .getUserMedia(constraints)
+          .then(function(mediaStream) {
+            cameraForm.video = document.querySelector("video");
+            cameraForm.video.srcObject = mediaStream;
+            cameraForm.video.onloadedmetadata = function(e) {
+              cameraForm.video.play();
+            };
+          })
+          .catch(function(err) {
+            console.log(err.name + ": " + err.message);
+            alert("摄像头打开失败");
+          });
+      },
+      close: function() {
+        //关闭摄像头
+        cameraForm.video.srcObject.getTracks()[0].stop();
+      },
+      save: function() {
+        // 使用canvas进行拍照
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(cameraForm.video, 0, 0, 250, 250);
+        cameraForm.base64Img = canvas.toDataURL("image/png");
+        document.getElementById("picture").src = cameraForm.base64Img;
+      },
+    };
+    $(function() {
+      cameraForm.open();
+    });
+  </script>
+</html>

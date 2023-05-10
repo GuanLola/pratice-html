@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flame Rocket</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+      }
+
+      canvas {
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const rocket = {
+        x: canvas.width / 2,
+        y: canvas.height - 100,
+        width: 50,
+        height: 100,
+        speed: 5,
+      };
+
+      const flame = {
+        x: rocket.x + rocket.width / 2,
+        y: rocket.y + rocket.height,
+        width: 20,
+        height: 20,
+        speed: 10,
+        color: '#ff0000',
+      };
+
+      function drawRocket() {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(rocket.x, rocket.y, rocket.width, rocket.height);
+      }
+
+      function drawFlame() {
+        ctx.fillStyle = flame.color;
+        ctx.fillRect(
+          flame.x - flame.width / 2,
+          flame.y,
+          flame.width,
+          flame.height
+        );
+
+        // 计算火焰位置和大小
+        flame.x = rocket.x + rocket.width / 2;
+        flame.y = rocket.y + rocket.height;
+        flame.height = Math.random() * 20 + 10;
+        flame.width = Math.random() * 10 + 10;
+      }
+
+      function updateRocket() {
+        // 控制火箭移动
+        if (keys.ArrowLeft && rocket.x > 0) {
+          rocket.x -= rocket.speed;
+        }
+        if (keys.ArrowRight && rocket.x + rocket.width < canvas.width) {
+          rocket.x += rocket.speed;
+        }
+      }
+
+      function draw() {
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 绘制火箭和火焰
+        drawRocket();
+        drawFlame();
+
+        // 更新火箭位置
+        updateRocket();
+
+        requestAnimationFrame(draw);
+      }
+
+      // 监听键盘事件
+      const keys = {};
+      document.addEventListener('keydown', (event) => {
+        keys[event.code] = true;
+      });
+      document.addEventListener('keyup', (event) => {
+        keys[event.code] = false;
+      });
+
+      // 启动游戏
+      draw();
+    </script>
+  </body>
+</html>

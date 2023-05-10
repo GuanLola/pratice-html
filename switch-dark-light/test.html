@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>做图片对比</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        user-select: none;
+      }
+      .div {
+        border: 1px solid lightgray;
+        width: 400px;
+        height: 200px;
+        margin: 10px;
+        float: left;
+        position: relative;
+      }
+      .img1 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+      }
+      .img2 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        right: 0;
+      }
+      .img1,
+      .img2 {
+        background-position: center center;
+        background-size: 400px 200px;
+        background-repeat: no-repeat;
+      }
+      .img1 {
+        background-position-x: 0;
+      }
+      .img2 {
+        background-position-x: 100%;
+      }
+      .bar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -4px;
+        width: 8px;
+        background-color: #037FFF;
+        cursor: ew-resize;
+      }
+      .stop {
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="div">
+      <div class="img1" style="background-image: url(./image/black-bg.png);">
+        <div class="bar" data-flag="0"></div>
+      </div>
+      <div
+        class="img2"
+        style="background-image: url(./image/box-bg.png);"
+      ></div>
+    </div>
+  </body>
+</html>
+<script>
+  $(document).ready(function() {
+    $(".bar").mousedown(function() {
+      $(this)
+        .parent()
+        .addClass("stop");
+      $(this)
+        .parent()
+        .next()
+        .addClass("stop");
+      $(this).attr("data-flag", "1");
+    });
+    $(".div").mousemove(function(e) {
+      const temp = $(this)
+        .find(".bar")
+        .attr("data-flag");
+      if (temp == "1") {
+        const w = $(this).width();
+        const x = e.offsetX;
+        const p = parseFloat((x / w).toFixed(2)) * 100;
+        $(this)
+          .children(".img1")
+          .css("width", p + "%");
+        $(this)
+          .children(".img2")
+          .css("left", p + "%");
+      }
+    });
+    $(document).mouseup(function() {
+      $(".img1,.img2").removeClass("stop");
+      $(".bar").attr("data-flag", "0");
+    });
+  });
+</script>

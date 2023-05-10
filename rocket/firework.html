@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rocket Launch</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+      }
+
+      #rocket {
+        position: absolute;
+        width: 50px;
+        height: 100px;
+        top: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+      }
+
+      #smoke {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 480px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #fff;
+        border-radius: 50%;
+        opacity: 0;
+      }
+
+      .smoke {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #fff;
+        opacity: 0.5;
+        animation: smoke 1s ease-out;
+      }
+
+      @keyframes smoke {
+        0% {
+          transform: scale(0);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(2);
+          opacity: 0.2;
+        }
+        100% {
+          transform: scale(5);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="rocket"></div>
+    <div id="smoke"></div>
+    <script>
+      const rocket = document.getElementById("rocket");
+      const smoke = document.getElementById("smoke");
+
+      // 火箭起飞
+      function launchRocket() {
+        rocket.style.transition = "all 2s";
+        rocket.style.transform = "translateY(-800px) rotate(720deg)";
+        smoke.style.animation = "smoke 1s infinite";
+      }
+
+      // 启动动画
+      setTimeout(launchRocket, 1000);
+    </script>
+  </body>
+</html>
